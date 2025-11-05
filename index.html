@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -33,140 +34,143 @@
     <header class="text-center mb-8">
       <h1 class="text-3xl sm:text-4xl font-bold text-blue-600">FindLaw PPC Performance Email Generator</h1>
       <p class="text-md text-gray-600 mt-2">Create professional client reports in seconds.</p>
-    </header><main class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-8">
-  <!-- Step 1 -->
-  <div>
-    <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 1: Report Details & Setup</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="md:col-span-2">
-        <label for="apiKey" class="block text-sm font-medium text-gray-700 mb-1">Google AI API Key</label>
-        <div class="flex gap-2">
-          <input type="password" id="apiKey"
-                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                 placeholder="Paste your API key here (only required once)">
-          <button id="refreshModelsBtn"
-                  class="shrink-0 px-3 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
-            Refresh models
-          </button>
+    </header>
+
+    <main class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-8">
+      <!-- Step 1 -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 1: Report Details & Setup</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="md:col-span-2">
+            <label for="apiKey" class="block text-sm font-medium text-gray-700 mb-1">Google AI API Key</label>
+            <div class="flex gap-2">
+              <input type="password" id="apiKey"
+                     class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                     placeholder="Paste your API key here (only required once)">
+              <button id="refreshModelsBtn"
+                      class="shrink-0 px-3 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                Refresh models
+              </button>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">
+              Your key is saved in your browser. Get a free key from
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Google AI Studio</a>.
+            </p>
+          </div>
+
+          <div class="md:col-span-2">
+            <label for="modelSelect" class="block text-sm font-medium text-gray-700 mb-1">Model</label>
+            <select id="modelSelect"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+              <option value="">(Load models using your API key)</option>
+            </select>
+            <p id="modelHelp" class="text-xs text-gray-500 mt-1">Tip: Try models/gemini-1.5-flash first.</p>
+          </div>
+
+          <div class="md:col-span-2">
+            <label for="firmName" class="block text-sm font-medium text-gray-700 mb-1">Law Firm Name / Contact</label>
+            <input type="text" id="firmName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Jane Doe @ Smith & Associates">
+          </div>
+
+          <div>
+            <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Report Start Date</label>
+            <input type="date" id="startDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+          </div>
+          <div>
+            <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">Report End Date</label>
+            <input type="date" id="endDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+          </div>
         </div>
-        <p class="text-xs text-gray-500 mt-1">
-          Your key is saved in your browser. Get a free key from
-          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Google AI Studio</a>.
+      </div>
+
+      <!-- Step 2 -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 2: Upload SHAPE Performance Dashboard Screenshot</h2>
+        <p class="text-sm text-gray-500 -mt-2 mb-4">
+          Upload a SHAPE performance dashboard image (PNG or JPG). You can drag & drop, click to upload, or paste an image from your clipboard.
         </p>
-      </div>
-
-      <div class="md:col-span-2">
-        <label for="modelSelect" class="block text-sm font-medium text-gray-700 mb-1">Model</label>
-        <select id="modelSelect"
-                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-          <option value="">(Load models using your API key)</option>
-        </select>
-        <p id="modelHelp" class="text-xs text-gray-500 mt-1">Tip: Try models/gemini-1.5-flash first.</p>
-      </div>
-
-      <div class="md:col-span-2">
-        <label for="firmName" class="block text-sm font-medium text-gray-700 mb-1">Law Firm Name / Contact</label>
-        <input type="text" id="firmName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Jane Doe @ Smith & Associates">
-      </div>
-
-      <div>
-        <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Report Start Date</label>
-        <input type="date" id="startDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-      </div>
-      <div>
-        <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">Report End Date</label>
-        <input type="date" id="endDate" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-      </div>
-    </div>
-  </div>
-
-  <!-- Step 2 -->
-  <div>
-    <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 2: Upload SHAPE Performance Dashboard Screenshot</h2>
-    <p class="text-sm text-gray-500 -mt-2 mb-4">
-      Upload a SHAPE performance dashboard image (PNG or JPG). You can drag & drop, click to upload, or paste an image from your clipboard.
-    </p>
-    <div class="mt-4">
-      <div id="dropzone"
-           class="flex justify-center items-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 transition-colors cursor-pointer">
-        <div class="text-center">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-          </svg>
-          <span class="mt-2 block font-semibold text-blue-600 hover:text-blue-500">Upload SHAPE dashboard</span>
-          <span class="mt-1 block text-gray-600">or drag and drop</span>
-          <input id="fileHidden" type="file" class="sr-only" accept="image/*">
+        <div class="mt-4">
+          <div id="dropzone"
+               class="flex justify-center items-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 transition-colors cursor-pointer">
+            <div class="text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+              <span class="mt-2 block font-semibold text-blue-600 hover:text-blue-500">Upload SHAPE dashboard</span>
+              <span class="mt-1 block text-gray-600">or drag and drop</span>
+              <input id="fileHidden" type="file" class="sr-only" accept="image/*">
+            </div>
+          </div>
+          <p id="fileName" class="text-sm text-green-600 font-medium mt-2"></p>
+          <div id="image-preview-container" class="mt-4 hidden">
+            <img id="image-preview" class="max-w-xs rounded-lg shadow-md" alt="SHAPE Performance Dashboard preview"/>
+          </div>
         </div>
       </div>
-      <p id="fileName" class="text-sm text-green-600 font-medium mt-2"></p>
-      <div id="image-preview-container" class="mt-4 hidden">
-        <img id="image-preview" class="max-w-xs rounded-lg shadow-md" alt="SHAPE Performance Dashboard preview"/>
+
+      <!-- Step 3 -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 3: Client’s Google Sheets Insight Contacts</h2>
+
+        <div class="mb-3">
+          <label for="contactsUrl" class="block text-sm font-medium text-gray-700 mb-1">Google Sheets URL (published CSV or export link) — optional</label>
+          <div class="flex gap-2">
+            <input type="url" id="contactsUrl" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Paste the Google Sheets link here">
+            <button id="loadSheetBtn" class="shrink-0 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Load from URL</button>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">
+            Tip: Best reliability is “Publish to the web” → Link → select the tab → CSV, then paste that link.
+          </p>
+          <p id="sheetStatus" class="text-xs mt-1"></p>
+        </div>
+
+        <p class="text-sm text-gray-500 -mt-1 mb-2">
+          Or paste the full contents of the client’s Insight Contacts Google Sheet below (plain text is fine). This powers “Executive Summary: Contact Metrics.” The raw sheet is not pasted into the email.
+        </p>
+        <textarea id="contactsPaste" rows="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition font-mono text-sm" placeholder="Paste the entire sheet (Ctrl/Cmd+V)."></textarea>
       </div>
-    </div>
-  </div>
 
-  <!-- Step 3 -->
-  <div>
-    <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 3: Client’s Google Sheets Insight Contacts</h2>
-
-    <div class="mb-3">
-      <label for="contactsUrl" class="block text-sm font-medium text-gray-700 mb-1">Google Sheets URL (published CSV or export link) — optional</label>
-      <div class="flex gap-2">
-        <input type="url" id="contactsUrl" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Paste the Google Sheets link here">
-        <button id="loadSheetBtn" class="shrink-0 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Load from URL</button>
+      <!-- Step 4 -->
+      <div>
+        <button id="generateBtn"
+                class="w-full flex justify-center items-center bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+          <svg id="button-icon" class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+          </svg>
+          <span id="button-text">Generate Email</span>
+          <div id="loading-spinner" class="hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+        </button>
       </div>
-      <p class="text-xs text-gray-500 mt-1">
-        Tip: Best reliability is “Publish to the web” → Link → select the tab → CSV, then paste that link.
-        Non-published “edit” links may fail due to access or CORS.
-      </p>
-      <p id="sheetStatus" class="text-xs mt-1"></p>
-    </div>
 
-    <p class="text-sm text-gray-500 -mt-1 mb-2">
-      Or paste the full contents of the client’s Insight Contacts Google Sheet below (plain text is fine). This powers “Executive Summary: Contact Metrics.” The raw sheet is not pasted into the email.
-    </p>
-    <textarea id="contactsPaste" rows="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition font-mono text-sm" placeholder="Paste the entire sheet (Ctrl/Cmd+V)."></textarea>
-  </div>
-
-  <!-- Step 4 -->
-  <div>
-    <button id="generateBtn"
-            class="w-full flex justify-center items-center bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
-      <svg id="button-icon" class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-      </svg>
-      <span id="button-text">Generate Email</span>
-      <div id="loading-spinner" class="hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-    </button>
-  </div>
-
-  <!-- Step 5 -->
-  <div id="output" class="hidden">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 5: Your Generated Email</h2>
-    <div class="relative">
-      <div id="emailOutput" class="w-full h-96 p-4 border border-gray-200 rounded-lg bg-gray-50 overflow-y-auto"></div>
-      <div class="tooltip absolute top-2 right-2">
-        <button id="copyBtn" class="bg-gray-200 text-gray-700 font-semibold py-2 px-3 rounded-lg hover:bg-gray-300 transition text-sm">Copy</button>
-        <span class="tooltiptext" id="copyTooltip">Copy to clipboard</span>
+      <!-- Step 5 -->
+      <div id="output" class="hidden">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 5: Your Generated Email</h2>
+        <div class="relative">
+          <div id="emailOutput" class="w-full h-96 p-4 border border-gray-200 rounded-lg bg-gray-50 overflow-y-auto"></div>
+          <div class="tooltip absolute top-2 right-2">
+            <button id="copyBtn" class="bg-gray-200 text-gray-700 font-semibold py-2 px-3 rounded-lg hover:bg-gray-300 transition text-sm">Copy</button>
+            <span class="tooltiptext" id="copyTooltip">Copy to clipboard</span>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
+        <strong class="font-bold">Error:</strong>
+        <span class="block sm:inline" id="error-text"></span>
+      </div>
+
+      <details class="text-sm text-gray-600">
+        <summary>Diagnostics</summary>
+        <div class="mt-2 space-y-1">
+          <div>Selected model: <span id="diagModel" class="font-medium"></span></div>
+          <div>Endpoint: <span id="diagEndpoint" class="font-medium"></span></div>
+          <div>Image MIME: <span id="diagMime" class="font-medium"></span></div>
+        </div>
+      </details>
+    </main>
   </div>
 
-  <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
-    <strong class="font-bold">Error:</strong>
-    <span class="block sm:inline" id="error-text"></span>
-  </div>
-
-  <details class="text-sm text-gray-600">
-    <summary>Diagnostics</summary>
-    <div class="mt-2 space-y-1">
-      <div>Selected model: <span id="diagModel" class="font-medium"></span></div>
-      <div>Endpoint: <span id="diagEndpoint" class="font-medium"></span></div>
-      <div>Image MIME: <span id="diagMime" class="font-medium"></span></div>
-    </div>
-  </details>
-</main>
-  </div>  <script>
+  <script>
     // DOM refs
     const apiKeyInput = document.getElementById('apiKey');
     const refreshModelsBtn = document.getElementById('refreshModelsBtn');
@@ -226,24 +230,21 @@
       loadingSpinner.classList.toggle('hidden', !b);
     }
 
-    // Build a CSV export URL from common Google Sheets links
+    // Build CSV export URL from Sheets link
     function toCsvExportUrl(url) {
       try {
         const u = new URL(url.trim());
-        if (u.hostname.includes('docs.google.com') && u.pathname.includes('/spreadsheets/d/')) {
-          const parts = u.pathname.split('/');
-          const idIndex = parts.indexOf('d') + 1;
-          const sheetId = parts[idIndex] || parts.find(p => p.length > 0);
+        if (u.hostname.includes('docs.google.com') && u.pathname.includes('/spreadsheets/')) {
+          // Already published CSV?
+          if (u.searchParams.get('output') === 'csv' || u.pathname.includes('/pub')) return url;
+          // Construct export CSV
+          const idMatch = u.pathname.match(/\/spreadsheets\/d\/([^/]+)/);
+          const id = idMatch ? idMatch[1] : '';
           const gid = u.searchParams.get('gid') || '0';
-          // Prefer published CSV if user pasted one; otherwise construct export CSV
-          if (u.pathname.includes('/pub')) return url; // already a published link (may be CSV)
-          if (u.searchParams.get('output') === 'csv') return url; // already CSV
-          return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+          if (id) return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
         }
-        return url; // Non-sheets URLs left as-is (user might paste a published CSV URL)
-      } catch {
         return url;
-      }
+      } catch { return url; }
     }
 
     async function loadContactsFromUrl() {
@@ -262,37 +263,116 @@
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const text = await res.text();
         if (!text || text.trim().length === 0) throw new Error('Empty response');
-        // Drop CSV text into the paste box. Model only needs plain text content.
         contactsPaste.value = text;
         sheetStatus.textContent = 'Loaded contacts from Google Sheets URL.';
         sheetStatus.className = 'text-xs text-green-700 mt-1';
       } catch (e) {
-        sheetStatus.textContent = 'Failed to load. Make sure the sheet is published to the web (CSV) or publicly accessible.';
+        sheetStatus.textContent = 'Failed to load. Publish the sheet to the web (CSV) or ensure it is publicly accessible.';
         sheetStatus.className = 'text-xs text-red-600 mt-1';
       }
     }
     loadSheetBtn.addEventListener('click', loadContactsFromUrl);
 
-    function setDropzoneHandlers() {
-      dropzone.addEventListener('click', () => fileHidden.click());
-      fileHidden.addEventListener('change', (e) => handleFile(e.target.files[0]));
-      dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
-      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-      dropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('dragover');
-        if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
-      });
-      document.addEventListener('paste', (e) => {
-        const items = (e.clipboardData || e.originalEvent?.clipboardData)?.items || [];
-        for (const it of items) {
-          if (it.type.indexOf('image') === 0) { handleFile(it.getAsFile()); break; }
-        }
-      });
+    // Dropzone handlers
+    function handleFile(file) {
+      if (!file || !file.type.startsWith('image/')) { showError('Please upload a valid image file (PNG/JPG).'); return; }
+      hideError();
+      fileNameDisplay.textContent = `SHAPE file: ${file.name}`;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        const m = dataUrl.match(/^data:(.*?);base64,(.*)$/);
+        if (m) { imageMime = m[1] || 'image/png'; imageBase64 = m[2]; }
+        else { imageMime = file.type || 'image/png'; imageBase64 = dataUrl.split(',')[1]; }
+        imagePreview.src = `data:${imageMime};base64,${imageBase64}`;
+        imagePreviewContainer.classList.remove('hidden');
+        dropzone.classList.add('ready');
+        diagMime.textContent = imageMime;
+      };
+      reader.readAsDataURL(file);
     }
-    setDropzoneHandlers();
+    dropzone.addEventListener('click', () => fileHidden.click());
+    fileHidden.addEventListener('change', (e) => handleFile(e.target.files[0]));
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+    });
+    document.addEventListener('paste', (e) => {
+      const items = (e.clipboardData || e.originalEvent?.clipboardData)?.items || [];
+      for (const it of items) { if (it.type.indexOf('image') === 0) { handleFile(it.getAsFile()); break; } }
+    });
 
-    // Load models for this API key
+    // Convert plain/markdown-ish to HTML if needed
+    function escapeHtml(s){ return s.replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+    function toHtmlIfNeeded(text){
+      let t = text.trim();
+      t = t.replace(/^```(?:html)?/i, '').replace(/```$/i, '').trim();
+      if (/(<(p|ul|ol|li|strong|em|h\d|br|div|span|hr)\b)/i.test(t)) return t;
+      const lines = t.split(/\r?\n/);
+      let html = '', inList = false;
+      for (let raw of lines) {
+        const line = raw.trimRight();
+        if (/^\s*•\s+/.test(line)) {
+          if (!inList) { html += '<ul>'; inList = true; }
+          const item = line.replace(/^\s*•\s+/, '');
+          const withBold = escapeHtml(item).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+          html += `<li>${withBold}</li>`;
+        } else if (line === '') {
+          if (inList) { html += '</ul>'; inList = false; }
+        } else {
+          if (inList) { html += '</ul>'; inList = false; }
+          const withBold = escapeHtml(line).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+          html += `<p>${withBold}</p>`;
+        }
+      }
+      if (inList) html += '</ul>';
+      return html;
+    }
+
+    // Insert CTA and Glossary
+    const ctaHtml = `<p>If you would like to discuss this report, please schedule a call at your convenience.</p>`;
+    function ensureCTA(html){
+      const lc=html.toLowerCase();
+      if (lc.includes('schedule a call')) return html;
+      const glossIdx = lc.indexOf('<p><strong>glossary of terms');
+      if (glossIdx !== -1) return html.slice(0, glossIdx) + ctaHtml + '\n' + html.slice(glossIdx);
+      return html + '\n' + ctaHtml;
+    }
+
+    const glossaryHtml = `
+<hr>
+<p><strong>Glossary of Terms</strong></p>
+<ul>
+  <li><strong>CPC</strong> — Cost Per Click: the average amount paid for each click.</li>
+  <li><strong>CPL</strong> — Cost Per Lead: cost divided by the number of leads</li>
+  <li><strong>CTR</strong> — Click-Through Rate: clicks ÷ impressions, shown as a percentage.</li>
+  <li><strong>Impr</strong> — Impressions: how many times the ads were shown.</li>
+  <li><strong>Conv</strong> — Conversions: the actions we track as goals (here: calls and emails).</li>
+  <li><strong>Conv Rate</strong> — Conversion Rate: conversions ÷ clicks, shown as a percentage.</li>
+</ul>`.trim();
+    function ensureGlossary(html){ if (html.toLowerCase().includes('glossary of terms')) return html; return html + '\n' + glossaryHtml; }
+
+    // Inject Google Sheet link into the email
+    function injectSheetLink(html, url) {
+      if (!url) return html;
+      let safe = url.trim();
+      if (!/^https?:\/\//i.test(safe)) safe = 'https://' + safe;
+      const anchor = `<a href="${safe}" target="_blank" rel="noopener noreferrer">Google Sheet</a>`;
+      if (html.includes('[Link to Google Sheet]')) {
+        return html.replace(/\[Link to Google Sheet\]/g, anchor);
+      }
+      // If placeholder not found, insert a line before Performance Summary
+      const psIdx = html.toLowerCase().indexOf('<p><strong>performance summary');
+      const line = `<p>The following link is for your ppc contacts for the period - ${anchor}</p>\n`;
+      if (psIdx !== -1) return html.slice(0, psIdx) + line + html.slice(psIdx);
+      // Otherwise, append near top
+      return line + html;
+    }
+
+    // Load models
     async function loadModels() {
       hideError();
       const apiKey = apiKeyInput.value.trim();
@@ -337,75 +417,6 @@
     }
     refreshModelsBtn.addEventListener('click', loadModels);
 
-    // File handling
-    function handleFile(file) {
-      if (!file || !file.type.startsWith('image/')) { showError('Please upload a valid image file (PNG/JPG).'); return; }
-      hideError();
-      fileNameDisplay.textContent = `SHAPE file: ${file.name}`;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataUrl = e.target.result;
-        const m = dataUrl.match(/^data:(.*?);base64,(.*)$/);
-        if (m) { imageMime = m[1] || 'image/png'; imageBase64 = m[2]; }
-        else { imageMime = file.type || 'image/png'; imageBase64 = dataUrl.split(',')[1]; }
-        imagePreview.src = `data:${imageMime};base64,${imageBase64}`;
-        imagePreviewContainer.classList.remove('hidden');
-        dropzone.classList.add('ready');
-        diagMime.textContent = imageMime;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // Convert plain/markdown-ish to HTML if needed
-    function escapeHtml(s){ return s.replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
-    function toHtmlIfNeeded(text){
-      let t = text.trim();
-      t = t.replace(/^```(?:html)?/i, '').replace(/```$/i, '').trim();
-      if (/(<(p|ul|ol|li|strong|em|h\d|br|div|span|hr)\b)/i.test(t)) return t;
-      const lines = t.split(/\r?\n/);
-      let html = '', inList = false;
-      for (let raw of lines) {
-        const line = raw.trimRight();
-        if (/^\s*•\s+/.test(line)) {
-          if (!inList) { html += '<ul>'; inList = true; }
-          const item = line.replace(/^\s*•\s+/, '');
-          const withBold = escapeHtml(item).replace(/\*\*(.+?)\*\*/g, '<strong>\$1</strong>');
-          html += `<li>${withBold}</li>`;
-        } else if (line === '') {
-          if (inList) { html += '</ul>'; inList = false; }
-        } else {
-          if (inList) { html += '</ul>'; inList = false; }
-          const withBold = escapeHtml(line).replace(/\*\*(.+?)\*\*/g, '<strong>\$1</strong>');
-          html += `<p>${withBold}</p>`;
-        }
-      }
-      if (inList) html += '</ul>';
-      return html;
-    }
-
-    // CTA and Glossary
-    const ctaHtml = `<p>If you would like to discuss this report, please schedule a call at your convenience.</p>`;
-    function ensureCTA(html){
-      const lc=html.toLowerCase();
-      if (lc.includes('schedule a call')) return html;
-      const glossIdx = lc.indexOf('<p><strong>glossary of terms');
-      if (glossIdx !== -1) return html.slice(0, glossIdx) + ctaHtml + '\n' + html.slice(glossIdx);
-      return html + '\n' + ctaHtml;
-    }
-
-    const glossaryHtml = `
-<hr>
-<p><strong>Glossary of Terms</strong></p>
-<ul>
-  <li><strong>CPC</strong> — Cost Per Click: the average amount paid for each click.</li>
-  <li><strong>CPL</strong> — Cost Per Lead: cost divided by the number of leads</li>
-  <li><strong>CTR</strong> — Click-Through Rate: clicks ÷ impressions, shown as a percentage.</li>
-  <li><strong>Impr</strong> — Impressions: how many times the ads were shown.</li>
-  <li><strong>Conv</strong> — Conversions: the actions we track as goals (here: calls and emails).</li>
-  <li><strong>Conv Rate</strong> — Conversion Rate: conversions ÷ clicks, shown as a percentage.</li>
-</ul>`.trim();
-    function ensureGlossary(html){ if (html.toLowerCase().includes('glossary of terms')) return html; return html + '\n' + glossaryHtml; }
-
     // Generate
     document.getElementById('generateBtn').addEventListener('click', async () => {
       hideError();
@@ -414,6 +425,7 @@
       const firmName=firmNameInput.value.trim();
       const startDate=startDateInput.value;
       const endDate=endDateInput.value;
+      const sheetUrl = contactsUrlInput.value.trim();
 
       if (!apiKey){ showError('Please paste your API key.'); return; }
       if (!modelName){ showError('Please load and select a model.'); return; }
@@ -421,9 +433,7 @@
 
       const contactsRaw = contactsPaste.value || '';
       const MAX_CONTACTS = 100000;
-      const contactsTrimmed = contactsRaw.length > MAX_CONTACTS
-        ? contactsRaw.slice(0, MAX_CONTACTS) + '\n...[truncated]...'
-        : contactsRaw;
+      const contactsTrimmed = contactsRaw.length > MAX_CONTACTS ? contactsRaw.slice(0, MAX_CONTACTS) + '\n...[truncated]...' : contactsRaw;
 
       const formattedStart = new Date(startDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
@@ -433,7 +443,8 @@
 
 Inputs:
 1) SHAPE performance dashboard screenshot (image).
-2) Pasted "Insight Contacts" sheet (plain text; do not paste the sheet).
+2) Pasted/loaded "Insight Contacts" text (do not paste the sheet itself).
+3) A Google Sheets URL may be provided. Use it to hyperlink the token [Link to Google Sheet].
 
 Output (very important):
 - Return a valid HTML fragment only (no Markdown, no backticks, no code fences).
@@ -450,15 +461,7 @@ Required structure:
 - Do not include a "Strategic Next Steps" section.
 - Closing: Please let me know if you have any questions. If you would like to discuss this report, please schedule a call at your convenience.
 - Signature: Best regards, + [Your Name]
-- Finally, include the footer titled <p><strong>Glossary of Terms</strong></p> with the following list exactly:
-  <ul>
-    <li><strong>CPC</strong> — Cost Per Click: the average amount paid for each click.</li>
-    <li><strong>CPL</strong> — Cost Per Lead: cost divided by the number of leads</li>
-    <li><strong>CTR</strong> — Click-Through Rate: clicks ÷ impressions, shown as a percentage.</li>
-    <li><strong>Impr</strong> — Impressions: how many times the ads were shown.</li>
-    <li><strong>Conv</strong> — Conversions: the actions we track as goals (here: calls and emails).</li>
-    <li><strong>Conv Rate</strong> — Conversion Rate: conversions ÷ clicks, shown as a percentage.</li>
-  </ul>
+- Finally, include the footer titled <p><strong>Glossary of Terms</strong></p> with the exact list provided earlier.
 
 Tone:
 - Confident, professional, client-focused.
@@ -468,6 +471,7 @@ Tone:
       const userQuery =
 `Law Firm Name: ${firmName}
 Date Range: ${dateRange}
+Google Sheets URL: ${sheetUrl || '(not provided)'}
 
 Insight Contacts (pasted/loaded, unformatted - do not paste into the email; reference only, may be truncated):
 ${contactsTrimmed}
@@ -503,6 +507,7 @@ Please generate the email as HTML only.`;
         if (!raw) { showError('The model returned an empty response. Try another model.'); console.log('Full response:', result); return; }
 
         let html = toHtmlIfNeeded(raw);
+        html = injectSheetLink(html, sheetUrl);
         html = ensureCTA(html);
         html = ensureGlossary(html);
         emailOutput.innerHTML = html;
@@ -528,5 +533,6 @@ Please generate the email as HTML only.`;
         await navigator.clipboard.writeText(emailOutput.innerText);
       }
     });
-  </script></body>
+  </script>
+</body>
 </html>
