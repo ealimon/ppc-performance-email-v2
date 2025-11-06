@@ -37,42 +37,30 @@
     </header>
 
     <main class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-8">
-      <!-- Step 1 -->
+      <!-- Step 1: Setup -->
       <div>
         <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 1: Report Details & Setup</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="md:col-span-2">
             <label for="apiKey" class="block text-sm font-medium text-gray-700 mb-1">Google AI API Key</label>
             <div class="flex gap-2">
-              <input type="password" id="apiKey"
-                     class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                     placeholder="Paste your API key here (only required once)">
-              <button id="refreshModelsBtn"
-                      class="shrink-0 px-3 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
-                Refresh models
-              </button>
+              <input type="password" id="apiKey" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Paste your API key here (only required once)">
+              <button id="refreshModelsBtn" class="shrink-0 px-3 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Refresh models</button>
             </div>
-            <p class="text-xs text-gray-500 mt-1">
-              Your key is saved in your browser. Get a free key from
-              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Google AI Studio</a>.
-            </p>
+            <p class="text-xs text-gray-500 mt-1">Your key is saved in your browser. Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Google AI Studio</a>.</p>
           </div>
 
           <div class="md:col-span-2">
             <label for="modelSelect" class="block text-sm font-medium text-gray-700 mb-1">Model</label>
-            <select id="modelSelect"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+            <select id="modelSelect" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
               <option value="">(Load models using your API key)</option>
             </select>
             <p id="modelHelp" class="text-xs text-gray-500 mt-1">Tip: Try models/gemini-1.5-flash first.</p>
           </div>
 
-          <!-- Strategist Name (new) -->
           <div class="md:col-span-2">
             <label for="strategistName" class="block text-sm font-medium text-gray-700 mb-1">Strategist’s Name</label>
-            <input type="text" id="strategistName"
-                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                   placeholder="e.g., Alex Johnson">
+            <input type="text" id="strategistName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Alex Johnson">
           </div>
 
           <div class="md:col-span-2">
@@ -91,19 +79,14 @@
         </div>
       </div>
 
-      <!-- Step 2 -->
+      <!-- Step 2: Upload -->
       <div>
         <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 2: Upload SHAPE Performance Dashboard Screenshot</h2>
-        <p class="text-sm text-gray-500 -mt-2 mb-4">
-          Upload a SHAPE performance dashboard image (PNG or JPG). You can drag & drop, click to upload, or paste an image from your clipboard.
-        </p>
+        <p class="text-sm text-gray-500 -mt-2 mb-4">Upload a SHAPE performance dashboard image (PNG or JPG). You can drag & drop, click to upload, or paste an image from your clipboard.</p>
         <div class="mt-4">
-          <div id="dropzone"
-               class="flex justify-center items-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 transition-colors cursor-pointer">
+          <div id="dropzone" class="flex justify-center items-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 transition-colors cursor-pointer">
             <div class="text-center">
-              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-              </svg>
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
               <span class="mt-2 block font-semibold text-blue-600 hover:text-blue-500">Upload SHAPE dashboard</span>
               <span class="mt-1 block text-gray-600">or drag and drop</span>
               <input id="fileHidden" type="file" class="sr-only" accept="image/*">
@@ -116,41 +99,32 @@
         </div>
       </div>
 
-      <!-- Step 3 -->
+      <!-- Step 3: Contacts -->
       <div>
         <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 3: Client’s Google Sheets Insight Contacts</h2>
-
         <div class="mb-3">
           <label for="contactsUrl" class="block text-sm font-medium text-gray-700 mb-1">Google Sheets URL (published CSV or export link) — optional</label>
           <div class="flex gap-2">
             <input type="url" id="contactsUrl" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Paste the Google Sheets link here">
             <button id="loadSheetBtn" class="shrink-0 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Load from URL</button>
           </div>
-          <p class="text-xs text-gray-500 mt-1">
-            Tip: Best reliability is “Publish to the web” → Link → select the tab → CSV, then paste that link.
-          </p>
+          <p class="text-xs text-gray-500 mt-1">Tip: Best reliability is “Publish to the web” → Link → select the tab → CSV, then paste that link.</p>
           <p id="sheetStatus" class="text-xs mt-1"></p>
         </div>
-
-        <p class="text-sm text-gray-500 -mt-1 mb-2">
-          Or paste the full contents of the client’s Insight Contacts Google Sheet below (plain text is fine). This powers “Executive Summary: Contact Metrics.” The raw sheet is not pasted into the email.
-        </p>
+        <p class="text-sm text-gray-500 -mt-1 mb-2">Or paste the full contents of the client’s Insight Contacts Google Sheet below (plain text is fine). This powers “Executive Summary: Contact Metrics.” The raw sheet is not pasted into the email.</p>
         <textarea id="contactsPaste" rows="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition font-mono text-sm" placeholder="Paste the entire sheet (Ctrl/Cmd+V)."></textarea>
       </div>
 
-      <!-- Step 4 -->
+      <!-- Step 4: Generate -->
       <div>
-        <button id="generateBtn"
-                class="w-full flex justify-center items-center bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
-          <svg id="button-icon" class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-          </svg>
+        <button id="generateBtn" class="w-full flex justify-center items-center bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+          <svg id="button-icon" class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
           <span id="button-text">Generate Email</span>
           <div id="loading-spinner" class="hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
         </button>
       </div>
 
-      <!-- Step 5 -->
+      <!-- Step 5: Output -->
       <div id="output" class="hidden">
         <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 5: Your Generated Email</h2>
         <div class="relative">
@@ -218,28 +192,17 @@
     let imageBase64 = null;
     let imageMime = null;
 
-    // Persist / load API key
     window.addEventListener('load', () => {
       const savedApiKey = localStorage.getItem('ppcGeneratorApiKey');
-      if (savedApiKey) {
-        apiKeyInput.value = savedApiKey;
-        loadModels();
-      }
+      if (savedApiKey) { apiKeyInput.value = savedApiKey; loadModels(); }
     });
-    apiKeyInput.addEventListener('input', () => {
-      localStorage.setItem('ppcGeneratorApiKey', apiKeyInput.value);
-    });
+    apiKeyInput.addEventListener('input', () => localStorage.setItem('ppcGeneratorApiKey', apiKeyInput.value));
 
-    // Helpers
-    function showError(m) { errorText.textContent = m; errorMessage.classList.remove('hidden'); }
-    function hideError() { errorMessage.classList.add('hidden'); }
-    function setLoading(b) {
-      generateBtn.disabled = b;
-      buttonText.classList.toggle('hidden', b);
-      loadingSpinner.classList.toggle('hidden', !b);
-    }
+    function showError(m){ errorText.textContent = m; errorMessage.classList.remove('hidden'); }
+    function hideError(){ errorMessage.classList.add('hidden'); }
+    function setLoading(b){ generateBtn.disabled=b; buttonText.classList.toggle('hidden', b); loadingSpinner.classList.toggle('hidden', !b); }
 
-    // Build CSV export URL from Sheets link
+    // Build CSV export URL from a Sheets link (best effort)
     function toCsvExportUrl(url) {
       try {
         const u = new URL(url.trim());
@@ -257,85 +220,62 @@
     async function loadContactsFromUrl() {
       const rawUrl = contactsUrlInput.value.trim();
       sheetStatus.textContent = '';
-      if (!rawUrl) {
-        sheetStatus.textContent = 'Please paste a Google Sheets URL.';
-        sheetStatus.className = 'text-xs text-red-600 mt-1';
-        return;
-      }
+      if (!rawUrl) { sheetStatus.textContent = 'Please paste a Google Sheets URL.'; sheetStatus.className = 'text-xs text-red-600 mt-1'; return; }
       const csvUrl = toCsvExportUrl(rawUrl);
-      sheetStatus.textContent = 'Loading...';
-      sheetStatus.className = 'text-xs text-gray-600 mt-1';
+      sheetStatus.textContent = 'Loading...'; sheetStatus.className = 'text-xs text-gray-600 mt-1';
       try {
-        const res = await fetch(csvUrl, { method: 'GET' });
+        const res = await fetch(csvUrl);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const text = await res.text();
-        if (!text || text.trim().length === 0) throw new Error('Empty response');
+        if (!text.trim()) throw new Error('Empty response');
         contactsPaste.value = text;
-        sheetStatus.textContent = 'Loaded contacts from Google Sheets URL.';
-        sheetStatus.className = 'text-xs text-green-700 mt-1';
+        sheetStatus.textContent = 'Loaded contacts from Google Sheets URL.'; sheetStatus.className = 'text-xs text-green-700 mt-1';
       } catch (e) {
-        sheetStatus.textContent = 'Failed to load. Publish the sheet to the web (CSV) or ensure it is publicly accessible.';
-        sheetStatus.className = 'text-xs text-red-600 mt-1';
+        sheetStatus.textContent = 'Failed to load. Publish the sheet to the web (CSV) or ensure it is publicly accessible.'; sheetStatus.className = 'text-xs text-red-600 mt-1';
       }
     }
     loadSheetBtn.addEventListener('click', loadContactsFromUrl);
 
-    // Dropzone handlers
-    function handleFile(file) {
+    function handleFile(file){
       if (!file || !file.type.startsWith('image/')) { showError('Please upload a valid image file (PNG/JPG).'); return; }
       hideError();
       fileNameDisplay.textContent = `SHAPE file: ${file.name}`;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataUrl = e.target.result;
-        const m = dataUrl.match(/^data:(.*?);base64,(.*)$/);
-        if (m) { imageMime = m[1] || 'image/png'; imageBase64 = m[2]; }
-        else { imageMime = file.type || 'image/png'; imageBase64 = dataUrl.split(',')[1]; }
-        imagePreview.src = `data:${imageMime};base64,${imageBase64}`;
+      const reader=new FileReader();
+      reader.onload=e=>{
+        const dataUrl=e.target.result;
+        const m=dataUrl.match(/^data:(.*?);base64,(.*)$/);
+        if(m){ imageMime=m[1]||'image/png'; imageBase64=m[2]; } else { imageMime=file.type||'image/png'; imageBase64=dataUrl.split(',')[1]; }
+        imagePreview.src=`data:${imageMime};base64,${imageBase64}`;
         imagePreviewContainer.classList.remove('hidden');
         dropzone.classList.add('ready');
-        diagMime.textContent = imageMime;
+        diagMime.textContent=imageMime;
       };
       reader.readAsDataURL(file);
     }
-    dropzone.addEventListener('click', () => fileHidden.click());
-    fileHidden.addEventListener('change', (e) => handleFile(e.target.files[0]));
-    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
-    });
-    document.addEventListener('paste', (e) => {
-      const items = (e.clipboardData || e.originalEvent?.clipboardData)?.items || [];
-      for (const it of items) { if (it.type.indexOf('image') === 0) { handleFile(it.getAsFile()); break; } }
+    dropzone.addEventListener('click', ()=> fileHidden.click());
+    fileHidden.addEventListener('change', e=> handleFile(e.target.files[0]));
+    dropzone.addEventListener('dragover', e=> { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', ()=> dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', e=> { e.preventDefault(); dropzone.classList.remove('dragover'); if (e.dataTransfer.files.length>0) handleFile(e.dataTransfer.files[0]); });
+    document.addEventListener('paste', e=>{
+      const items=(e.clipboardData||e.originalEvent?.clipboardData)?.items||[];
+      for (const it of items) if (it.type.indexOf('image')===0) { handleFile(it.getAsFile()); break; }
     });
 
-    // Convert plain/markdown-ish to HTML if needed
+    // Plain text → HTML fallback
     function escapeHtml(s){ return s.replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
     function toHtmlIfNeeded(text){
-      let t = text.trim();
-      t = t.replace(/^```(?:html)?/i, '').replace(/```$/i, '').trim();
+      let t=text.trim();
+      t=t.replace(/^```(?:html)?/i,'').replace(/```$/i,'').trim();
       if (/(<(p|ul|ol|li|strong|em|h\d|br|div|span|hr)\b)/i.test(t)) return t;
-      const lines = t.split(/\r?\n/);
-      let html = '', inList = false;
-      for (let raw of lines) {
-        const line = raw.trimRight();
-        if (/^\s*•\s+/.test(line)) {
-          if (!inList) { html += '<ul>'; inList = true; }
-          const item = line.replace(/^\s*•\s+/, '');
-          const withBold = escapeHtml(item).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-          html += `<li>${withBold}</li>`;
-        } else if (line === '') {
-          if (inList) { html += '</ul>'; inList = false; }
-        } else {
-          if (inList) { html += '</ul>'; inList = false; }
-          const withBold = escapeHtml(line).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-          html += `<p>${withBold}</p>`;
-        }
+      const lines=t.split(/\r?\n/); let html='', inList=false;
+      for (let raw of lines){
+        const line=raw.trimRight();
+        if (/^\s*•\s+/.test(line)){ if(!inList){html+='<ul>'; inList=true;} const item=line.replace(/^\s*•\s+/, ''); const withBold=escapeHtml(item).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'); html+=`<li>${withBold}</li>`; }
+        else if (line===''){ if(inList){html+='</ul>'; inList=false;} }
+        else { if(inList){html+='</ul>'; inList=false;} const withBold=escapeHtml(line).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'); html+=`<p>${withBold}</p>`; }
       }
-      if (inList) html += '</ul>';
+      if (inList) html+='</ul>';
       return html;
     }
 
@@ -345,8 +285,7 @@
       const lc=html.toLowerCase();
       if (lc.includes('schedule a call')) return html;
       const glossIdx = lc.indexOf('<p><strong>glossary of terms');
-      if (glossIdx !== -1) return html.slice(0, glossIdx) + ctaHtml + '\n' + html.slice(glossIdx);
-      return html + '\n' + ctaHtml;
+      return glossIdx !== -1 ? html.slice(0, glossIdx) + ctaHtml + '\n' + html.slice(glossIdx) : (html + '\n' + ctaHtml);
     }
 
     const glossaryHtml = `
@@ -360,58 +299,43 @@
   <li><strong>Conv</strong> — Conversions: the actions we track as goals (here: calls and emails).</li>
   <li><strong>Conv Rate</strong> — Conversion Rate: conversions ÷ clicks, shown as a percentage.</li>
 </ul>`.trim();
-    function ensureGlossary(html){ if (html.toLowerCase().includes('glossary of terms')) return html; return html + '\n' + glossaryHtml; }
+    function ensureGlossary(html){ return html.toLowerCase().includes('glossary of terms') ? html : (html + '\n' + glossaryHtml); }
 
-    // Inject Google Sheet link and avoid duplicates
+    // Replace [Your Name] with strategist name
+    function applyStrategistName(html, name) {
+      const n = (name || '').trim();
+      return n ? html.replace(/\[Your Name\]/g, escapeHtml(n)) : html;
+    }
+
+    // Insert exactly one clean link line; strip any duplicates/fragments first
     function injectSheetLink(html, url) {
       if (!url) return html;
       let safe = url.trim();
       if (!/^https?:\/\//i.test(safe)) safe = 'https://' + safe;
       const anchor = `<a href="${safe}" target="_blank" rel="noopener noreferrer">Google Sheet</a>`;
+      const canonical = `<p>The following link is for your ppc contacts for the period - ${anchor}</p>`;
+
+      // 1) Remove any existing "ppc contacts" paragraphs (case-insensitive)
+      html = html.replace(/<p[^>]*>[\s\S]*?the following link is for your ppc contacts[\s\S]*?<\/p>/gi, '');
+
+      // 2) Remove any standalone paragraphs that contain a docs.google.com/spreadsheets link (prevent raw fragments)
+      html = html.replace(/<p[^>]*>[\s\S]*?(https?:\/\/)?docs\.google\.com\/spreadsheets\/[\s\S]*?<\/p>/gi, '');
+
+      // 3) Replace placeholder if present (just in case it appears elsewhere)
+      html = html.replace(/\[Link to Google Sheet\]/g, anchor);
+
+      // 4) Insert canonical line before Performance Summary; else prepend
       const lc = html.toLowerCase();
-
-      // 1) Replace the placeholder if present
-      if (html.includes('[Link to Google Sheet]')) {
-        html = html.replace(/\[Link to Google Sheet\]/g, anchor);
-      }
-
-      // 2) If a "ppc contacts" line already exists, upgrade it to include the anchor once
-      const contactsLineRe = /<p[^>]*>[^<]*the following link is for your ppc contacts[^<]*<\/p>/i;
-      if (contactsLineRe.test(html)) {
-        // If that paragraph doesn't already contain an anchor, replace it with our canonical line + anchor
-        if (!/<p[^>]*>.*<a\s+href=/i.test(html.match(contactsLineRe)[0])) {
-          html = html.replace(
-            contactsLineRe,
-            `<p>The following link is for your ppc contacts for the period - ${anchor}</p>`
-          );
-        }
-        return html; // Do not insert another line
-      }
-
-      // 3) If neither placeholder nor line exists, insert before Performance Summary
       const psIdx = lc.indexOf('<p><strong>performance summary');
-      const line = `<p>The following link is for your ppc contacts for the period - ${anchor}</p>\n`;
-      if (psIdx !== -1) return html.slice(0, psIdx) + line + html.slice(psIdx);
-
-      // 4) Otherwise, prepend near the top
-      return line + html;
-    }
-
-    // Replace [Your Name] with strategist name
-    function applyStrategistName(html, name) {
-      const n = (name || '').trim();
-      if (!n) return html;
-      return html.replace(/\[Your Name\]/g, escapeHtml(n));
+      if (psIdx !== -1) return html.slice(0, psIdx) + canonical + '\n' + html.slice(psIdx);
+      return canonical + '\n' + html;
     }
 
     // Load models
     async function loadModels() {
       hideError();
       const apiKey = apiKeyInput.value.trim();
-      if (!apiKey) {
-        modelSelect.innerHTML = '<option value="">(Enter API key, then click Refresh models)</option>';
-        return;
-      }
+      if (!apiKey) { modelSelect.innerHTML = '<option value="">(Enter API key, then click Refresh models)</option>'; return; }
       modelSelect.innerHTML = '<option value="">Loading models...</option>';
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`;
@@ -421,16 +345,10 @@
         const models = (data.models || [])
           .filter(m => Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes('generateContent'))
           .sort((a, b) => {
-            const an = a.name || '';
-            const bn = b.name || '';
-            const score = (n) => (n.includes('1.5') ? 2 : n.includes('1.0') ? 1 : 0) + (n.includes('flash') ? 0.5 : 0);
-            return score(bn) - score(an);
+            const score = n => (n.includes('1.5') ? 2 : n.includes('1.0') ? 1 : 0) + (n.includes('flash') ? 0.5 : 0);
+            return score(b.name || '') - score(a.name || '');
           });
-        if (!models.length) {
-          modelSelect.innerHTML = '<option value="">No models available for generateContent with this key.</option>';
-          showError('No compatible models found. Enable Generative Language/Vertex AI and link billing.');
-          return;
-        }
+        if (!models.length) { modelSelect.innerHTML = '<option value="">No models available for generateContent with this key.</option>'; showError('No compatible models found. Enable Generative Language/Vertex AI and link billing.'); return; }
         modelSelect.innerHTML = '';
         let defaultIndex = 0;
         models.forEach((m, idx) => {
@@ -452,24 +370,24 @@
     // Generate
     document.getElementById('generateBtn').addEventListener('click', async () => {
       hideError();
-      const apiKey=apiKeyInput.value.trim();
-      const modelName=modelSelect.value;
-      const strategistName=strategistNameInput.value.trim();
-      const firmName=firmNameInput.value.trim();
-      const startDate=startDateInput.value;
-      const endDate=endDateInput.value;
+      const apiKey = apiKeyInput.value.trim();
+      const modelName = modelSelect.value;
+      const strategistName = strategistNameInput.value.trim();
+      const firmName = firmNameInput.value.trim();
+      const startDate = startDateInput.value;
+      const endDate = endDateInput.value;
       const sheetUrl = contactsUrlInput.value.trim();
 
-      if (!apiKey){ showError('Please paste your API key.'); return; }
-      if (!modelName){ showError('Please load and select a model.'); return; }
-      if (!firmName || !startDate || !endDate || !imageBase64){ showError('Please complete all fields and upload a screenshot.'); return; }
+      if (!apiKey) { showError('Please paste your API key.'); return; }
+      if (!modelName) { showError('Please load and select a model.'); return; }
+      if (!firmName || !startDate || !endDate || !imageBase64) { showError('Please complete all fields and upload a screenshot.'); return; }
 
       const contactsRaw = contactsPaste.value || '';
       const MAX_CONTACTS = 100000;
       const contactsTrimmed = contactsRaw.length > MAX_CONTACTS ? contactsRaw.slice(0, MAX_CONTACTS) + '\n...[truncated]...' : contactsRaw;
 
-      const formattedStart = new Date(startDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
-      const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
+      const formattedStart = new Date(startDate).toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric', timeZone:'UTC' });
+      const formattedEnd   = new Date(endDate).toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric', timeZone:'UTC' });
       const dateRange = `${formattedStart} - ${formattedEnd}`;
 
       const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client (not internal strategist notes). Use plain, outcome-focused language.
@@ -513,9 +431,9 @@ ${contactsTrimmed}
 
 Please generate the email as HTML only.`;
 
-      const apiUrl=`https://generativelanguage.googleapis.com/v1beta/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
-      diagModel.textContent=modelName;
-      diagEndpoint.textContent=apiUrl;
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      diagModel.textContent = modelName;
+      diagEndpoint.textContent = apiUrl;
 
       const payload = {
         systemInstruction: { parts: [{ text: systemPrompt }] },
@@ -531,12 +449,8 @@ Please generate the email as HTML only.`;
       try {
         setLoading(true);
         const res = await fetch(apiUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-        if (!res.ok) {
-          const err = await res.json().catch(()=>({}));
-          const msg = err?.error?.message || `HTTP ${res.status}`;
-          showError(`Failed to generate email. API Error: ${msg}`);
-          return;
-        }
+        if (!res.ok) { const err = await res.json().catch(()=>({})); const msg = err?.error?.message || `HTTP ${res.status}`; showError(`Failed to generate email. API Error: ${msg}`); return; }
+
         const result = await res.json();
         let raw = (result?.candidates?.[0]?.content?.parts || []).map(p=>p.text).filter(Boolean).join('\n').trim();
         if (!raw) { showError('The model returned an empty response. Try another model.'); console.log('Full response:', result); return; }
@@ -555,7 +469,7 @@ Please generate the email as HTML only.`;
       }
     });
 
-    // Copy as rich HTML
+    // Copy
     document.getElementById('copyBtn').addEventListener('click', async () => {
       const html = emailOutput.innerHTML;
       try {
