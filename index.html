@@ -9,8 +9,14 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
     .tooltip { position: relative; display: inline-block; }
-    .tooltip .tooltiptext { visibility: hidden; width: 140px; background:#555; color:#fff; text-align:center; border-radius:6px; padding:5px; position:absolute; z-index:1; bottom:125%; left:50%; margin-left:-70px; opacity:0; transition:opacity 0.3s; }
-    .tooltip .tooltiptext::after { content:""; position:absolute; top:100%; left:50%; margin-left:-5px; border-width:5px; border-style:solid; border-color:#555 transparent transparent transparent; }
+    .tooltip .tooltiptext {
+      visibility: hidden; width: 140px; background:#555; color:#fff; text-align:center; border-radius:6px; padding:5px;
+      position:absolute; z-index:1; bottom:125%; left:50%; margin-left:-70px; opacity:0; transition:opacity 0.3s;
+    }
+    .tooltip .tooltiptext::after {
+      content:""; position:absolute; top:100%; left:50%; margin-left:-5px;
+      border-width:5px; border-style:solid; border-color:#555 transparent transparent transparent;
+    }
     .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
     input[type="date"]::-webkit-calendar-picker-indicator { cursor:pointer; opacity:.6; transition:opacity .2s; }
     input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity:1; }
@@ -52,15 +58,19 @@
             <p id="modelHelp" class="text-xs text-gray-500 mt-1">Tip: Try models/gemini-1.5-flash first.</p>
           </div>
 
-          <!-- Strategist Name -->
           <div class="md:col-span-2">
             <label for="strategistName" class="block text-sm font-medium text-gray-700 mb-1">Strategist’s Name</label>
             <input type="text" id="strategistName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Alex Johnson">
           </div>
+          
+          <div class="md:col-span-2">
+            <label for="contactName" class="block text-sm font-medium text-gray-700 mb-1">Primary Contact Name (for salutation) — optional</label>
+            <input type="text" id="contactName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Jim">
+          </div>
 
           <div class="md:col-span-2">
-            <label for="firmName" class="block text-sm font-medium text-gray-700 mb-1">Law Firm Name / Contact</label>
-            <input type="text" id="firmName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Jane Doe @ Smith & Associates">
+            <label for="firmName" class="block text-sm font-medium text-gray-700 mb-1">Law Firm Name</label>
+            <input type="text" id="firmName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Law Office of James K. Champion">
           </div>
 
           <div>
@@ -154,6 +164,7 @@
     const modelHelp = document.getElementById('modelHelp');
 
     const strategistNameInput = document.getElementById('strategistName');
+    const contactNameInput = document.getElementById('contactName');
     const firmNameInput = document.getElementById('firmName');
     const startDateInput = document.getElementById('startDate');
     const endDateInput = document.getElementById('endDate');
@@ -182,7 +193,6 @@
     const diagEndpoint = document.getElementById('diagEndpoint');
     const diagMime = document.getElementById('diagMime');
 
-    // State
     let imageBase64 = null;
     let imageMime = null;
 
@@ -196,7 +206,6 @@
     function hideError(){ errorMessage.classList.add('hidden'); }
     function setLoading(b){ generateBtn.disabled=b; buttonText.classList.toggle('hidden', b); loadingSpinner.classList.toggle('hidden', !b); }
 
-    // Build CSV export URL from Sheets link
     function toCsvExportUrl(url) {
       try {
         const u = new URL(url.trim());
@@ -256,7 +265,6 @@
       for (const it of items) if (it.type.indexOf('image')===0) { handleFile(it.getAsFile()); break; }
     });
 
-    // Text -> HTML fallback
     function escapeHtml(s){ return s.replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
     function toHtmlIfNeeded(text){
       let t=text.trim();
@@ -273,15 +281,6 @@
       return html;
     }
 
-    // Ensure salutation exists at top
-    function ensureSalutation(html, firmName) {
-      if (/<p[^>]*>\s*Dear\b/i.test(html)) return html;
-      const name = (firmName || 'Client').trim();
-      const salutation = `<p>Dear ${escapeHtml(name)},</p>\n`;
-      return salutation + html;
-    }
-
-    // CTA and Glossary
     const ctaHtml = `<p>If you would like to discuss this report, please schedule a call at your convenience.</p>`;
     function ensureCTA(html){
       const lc=html.toLowerCase();
@@ -303,34 +302,32 @@
 </ul>`.trim();
     function ensureGlossary(html){ return html.toLowerCase().includes('glossary of terms') ? html : (html + '\n' + glossaryHtml); }
 
-    // Replace [Your Name] with strategist name
     function applyStrategistName(html, name) {
       const n = (name || '').trim();
       return n ? html.replace(/\[Your Name\]/g, escapeHtml(n)) : html;
     }
 
-    // Insert exactly one clean link line; strip any duplicates/fragments first
     function injectSheetLink(html, url) {
       if (!url) return html;
       let safe = url.trim();
       if (!/^https?:\/\//i.test(safe)) safe = 'https://' + safe;
       const anchor = `<a href="${safe}" target="_blank" rel="noopener noreferrer">Google Sheet</a>`;
       const canonical = `<p>The following link is for your ppc contacts for the period - ${anchor}</p>`;
-
-      // Remove any existing "ppc contacts" paragraphs
       html = html.replace(/<p[^>]*>[\s\S]*?the following link is for your ppc contacts[\s\S]*?<\/p>/gi, '');
-      // Remove any paragraph with a Google Sheets link
       html = html.replace(/<p[^>]*>[\s\S]*?(https?:\/\/)?docs\.google\.com\/spreadsheets\/[\s\S]*?<\/p>/gi, '');
-      // Replace placeholder if present
       html = html.replace(/\[Link to Google Sheet\]/g, anchor);
-
-      // Insert canonical line before Performance Summary; else prepend
       const lc = html.toLowerCase();
       const psIdx = lc.indexOf('<p><strong>performance summary');
       return psIdx !== -1 ? (html.slice(0, psIdx) + canonical + '\n' + html.slice(psIdx)) : (canonical + '\n' + html);
     }
 
-    // Load models
+    function ensureSalutation(html, firmName, contactName) {
+      if (/<p[^>]*>\s*Dear\b/i.test(html)) return html;
+      const target = (contactName || firmName || 'Client').trim();
+      const salutation = `<p>Dear ${escapeHtml(target)},</p>\n`;
+      return salutation + html;
+    }
+
     async function loadModels() {
       hideError();
       const apiKey = apiKeyInput.value.trim();
@@ -341,19 +338,16 @@
         const res = await fetch(url);
         if (!res.ok) throw new Error(`ListModels failed (${res.status})`);
         const data = await res.json();
-        const models = (data.models || [])
-          .filter(m => Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes('generateContent'))
-          .sort((a, b) => {
-            const score = n => (n.includes('1.5') ? 2 : (n.includes('1.0') ? 1 : 0)) + (n.includes('flash') ? 0.5 : 0);
-            return score(b.name || '') - score(a.name || '');
-          });
+        const models = (data.models || []).filter(m => Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes('generateContent')).sort((a, b) => {
+          const score = n => (n.includes('1.5') ? 2 : (n.includes('1.0') ? 1 : 0)) + (n.includes('flash') ? 0.5 : 0);
+          return score(b.name || '') - score(a.name || '');
+        });
         if (!models.length) { modelSelect.innerHTML = '<option value="">No models available for generateContent with this key.</option>'; showError('No compatible models found. Enable Generative Language/Vertex AI and link billing.'); return; }
         modelSelect.innerHTML = '';
         let defaultIndex = 0;
         models.forEach((m, idx) => {
           const opt = document.createElement('option');
-          opt.value = m.name;
-          opt.textContent = m.name;
+          opt.value = m.name; opt.textContent = m.name;
           modelSelect.appendChild(opt);
           if (m.name.includes('gemini-1.5-flash')) defaultIndex = idx;
         });
@@ -366,12 +360,12 @@
     }
     refreshModelsBtn.addEventListener('click', loadModels);
 
-    // Generate
     document.getElementById('generateBtn').addEventListener('click', async () => {
       hideError();
       const apiKey=apiKeyInput.value.trim();
       const modelName=modelSelect.value;
       const strategistName=strategistNameInput.value.trim();
+      const contactName = contactNameInput.value.trim();
       const firmName=firmNameInput.value.trim();
       const startDate=startDateInput.value;
       const endDate=endDateInput.value;
@@ -386,16 +380,18 @@
       const contactsTrimmed = contactsRaw.length > MAX_CONTACTS ? contactsRaw.slice(0, MAX_CONTACTS) + '\n...[truncated]...' : contactsRaw;
 
       const formattedStart = new Date(startDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
-      const formattedEnd   = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
+      const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const dateRange = `${formattedStart} - ${formattedEnd}`;
 
-      const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client (not internal strategist notes). Use plain, outcome-focused language.
+      // UPDATED prompt with specific opening sentence
+      const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client. Use plain, outcome-focused language.
 
 Inputs:
-1) SHAPE performance dashboard screenshot (image).
-2) Pasted/loaded "Insight Contacts" text (do not paste the sheet itself).
-3) A Google Sheets URL may be provided. Use it to hyperlink the token [Link to Google Sheet].
-4) A strategist name may be provided. Replace [Your Name] in the signature with it.
+1) SHAPE performance dashboard screenshot.
+2) Pasted "Insight Contacts" text (do not paste the sheet itself).
+3) A Google Sheets URL (hyperlink the [Link to Google Sheet] token).
+4) A strategist name (replace [Your Name]).
+5) A primary contact name (use for the salutation).
 
 Output (very important):
 - Return a valid HTML fragment only (no Markdown, no backticks, no code fences).
@@ -403,12 +399,12 @@ Output (very important):
 - Do not include <html>, <body>, or <head> tags.
 
 Required structure:
-- Salutation: Dear [Law Firm Name / Contact],
-- Opening: Purpose + date range [${dateRange}].
+- Salutation: "Dear [Primary Contact Name]," (if provided) or "Dear [Law Firm Name] team,".
+- Opening: Start with the exact sentence "This report summarizes the performance of your search engine marketing campaigns for the period of ${formattedStart} through ${formattedEnd}." Follow it by identifying the platforms visible in the screenshot (e.g., "The data reflects performance from the Google and Bing search platforms.").
 - Contacts link line: The following link is for your ppc contacts for the period - [Link to Google Sheet]
-- <p><strong>Performance Summary</strong></p> + <ul>. If multiple platforms (LSA, Google Ads, Microsoft Ads) appear, add short per-platform sub-sections with their own <ul>.
-- <p><strong>Executive Summary: Contact Metrics</strong></p> with a short <ul>.
-- <p><strong>Insightful Analysis</strong></p> — client-facing; 1–3 concise paragraphs tied to business outcomes; avoid internal to-dos and platform jargon.
+- <p><strong>Performance Summary</strong></p> + <ul>.
+- <p><strong>Executive Summary: Contact Metrics</strong></p> + <ul>.
+- <p><strong>Insightful Analysis</strong></p> (1-3 paragraphs for the client).
 - Do not include a "Strategic Next Steps" section.
 - Closing: Please let me know if you have any questions. If you would like to discuss this report, please schedule a call at your convenience.
 - Signature: Best regards, + [Your Name]
@@ -420,7 +416,8 @@ Tone:
 - Avoid first-person singular ("I") and implementation details.`;
 
       const userQuery =
-`Law Firm Name: ${firmName}
+`Primary Contact Name: ${contactName || '(not provided)'}
+Law Firm Name: ${firmName}
 Strategist Name: ${strategistName || '(not provided)'}
 Date Range: ${dateRange}
 Google Sheets URL: ${sheetUrl || '(not provided)'}
@@ -448,8 +445,8 @@ Please generate the email as HTML only.`;
         if (!raw) { showError('The model returned an empty response. Try another model.'); console.log('Full response:', result); return; }
 
         let html = toHtmlIfNeeded(raw);
-        html = ensureSalutation(html, firmName);           // NEW: always ensure salutation
-        html = injectSheetLink(html, sheetUrl);            // single clean link line
+        html = ensureSalutation(html, firmName, contactName);
+        html = injectSheetLink(html, sheetUrl);
         html = ensureCTA(html);
         html = ensureGlossary(html);
         html = applyStrategistName(html, strategistName);
