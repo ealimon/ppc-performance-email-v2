@@ -321,11 +321,10 @@
       return psIdx !== -1 ? (html.slice(0, psIdx) + canonical + '\n' + html.slice(psIdx)) : (canonical + '\n' + html);
     }
 
-    function ensureSalutation(html, firmName, contactName) {
-      if (/<p[^>]*>\s*Dear\b/i.test(html)) return html;
-      const target = (contactName || firmName || 'Client').trim();
-      const salutation = `<p>Dear ${escapeHtml(target)},</p>\n`;
-      return salutation + html;
+    // THIS IS THE NEW ROBUST SALUTATION FUNCTION
+    function buildSalutation(firmName, contactName) {
+      const target = (contactName || `${firmName} team` || 'Client').trim();
+      return `<p>Dear ${escapeHtml(target)},</p>\n`;
     }
 
     async function loadModels() {
@@ -381,25 +380,24 @@
 
       const formattedStart = new Date(startDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
-      const dateRange = `${formattedStart} - ${formattedEnd}`;
+      const dateRange = `${formattedStart} through ${formattedEnd}`;
 
-      // UPDATED prompt with specific opening sentence
+      // UPDATED prompt: removed salutation instruction.
       const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client. Use plain, outcome-focused language.
 
 Inputs:
-1) SHAPE performance dashboard screenshot.
+1) SHAPE performance dashboard screenshot (image).
 2) Pasted "Insight Contacts" text (do not paste the sheet itself).
 3) A Google Sheets URL (hyperlink the [Link to Google Sheet] token).
 4) A strategist name (replace [Your Name]).
-5) A primary contact name (use for the salutation).
 
 Output (very important):
 - Return a valid HTML fragment only (no Markdown, no backticks, no code fences).
+- DO NOT write the "Dear..." salutation. The app will add it. Start with the opening sentence.
 - Use <p> and <strong> for text; <ul><li> for lists.
 - Do not include <html>, <body>, or <head> tags.
 
 Required structure:
-- Salutation: "Dear [Primary Contact Name]," (if provided) or "Dear [Law Firm Name] team,".
 - Opening: Start with the exact sentence "This report summarizes the performance of your search engine marketing campaigns for the period of ${formattedStart} through ${formattedEnd}." Follow it by identifying the platforms visible in the screenshot (e.g., "The data reflects performance from the Google and Bing search platforms.").
 - Contacts link line: The following link is for your ppc contacts for the period - [Link to Google Sheet]
 - <p><strong>Performance Summary</strong></p> + <ul>.
@@ -416,8 +414,7 @@ Tone:
 - Avoid first-person singular ("I") and implementation details.`;
 
       const userQuery =
-`Primary Contact Name: ${contactName || '(not provided)'}
-Law Firm Name: ${firmName}
+`Law Firm Name: ${firmName}
 Strategist Name: ${strategistName || '(not provided)'}
 Date Range: ${dateRange}
 Google Sheets URL: ${sheetUrl || '(not provided)'}
@@ -425,7 +422,7 @@ Google Sheets URL: ${sheetUrl || '(not provided)'}
 Insight Contacts (pasted/loaded, unformatted - do not paste into the email; reference only, may be truncated):
 ${contactsTrimmed}
 
-Please generate the email as HTML only.`;
+Please generate the email body content as HTML only. Do not include the "Dear..." salutation.`;
 
       const apiUrl=`https://generativelanguage.googleapis.com/v1beta/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
       diagModel.textContent=modelName;
@@ -445,11 +442,14 @@ Please generate the email as HTML only.`;
         if (!raw) { showError('The model returned an empty response. Try another model.'); console.log('Full response:', result); return; }
 
         let html = toHtmlIfNeeded(raw);
-        html = ensureSalutation(html, firmName, contactName);
+        // Apply post-processing in a specific order
         html = injectSheetLink(html, sheetUrl);
         html = ensureCTA(html);
         html = ensureGlossary(html);
         html = applyStrategistName(html, strategistName);
+        // Prepend the salutation at the very end to ensure it's always first
+        html = buildSalutation(firmName, contactName) + html;
+        
         emailOutput.innerHTML = html;
         outputDiv.classList.remove('hidden');
       } catch(e) {
