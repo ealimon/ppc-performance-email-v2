@@ -321,7 +321,7 @@
       return psIdx !== -1 ? (html.slice(0, psIdx) + canonical + '\n' + html.slice(psIdx)) : (canonical + '\n' + html);
     }
 
-    // THIS IS THE NEW ROBUST SALUTATION FUNCTION
+    // THE ROBUST SALUTATION FUNCTION
     function buildSalutation(firmName, contactName) {
       const target = (contactName || `${firmName} team` || 'Client').trim();
       return `<p>Dear ${escapeHtml(target)},</p>\n`;
@@ -382,7 +382,7 @@
       const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const dateRange = `${formattedStart} through ${formattedEnd}`;
 
-      // UPDATED prompt: removed salutation instruction.
+      // UPDATED PROMPT: The app handles the salutation now, so it's removed from the AI's instructions.
       const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client. Use plain, outcome-focused language.
 
 Inputs:
@@ -393,7 +393,7 @@ Inputs:
 
 Output (very important):
 - Return a valid HTML fragment only (no Markdown, no backticks, no code fences).
-- DO NOT write the "Dear..." salutation. The app will add it. Start with the opening sentence.
+- DO NOT write the "Dear..." salutation. The application will add it. Start directly with the opening sentence.
 - Use <p> and <strong> for text; <ul><li> for lists.
 - Do not include <html>, <body>, or <head> tags.
 
@@ -442,12 +442,12 @@ Please generate the email body content as HTML only. Do not include the "Dear...
         if (!raw) { showError('The model returned an empty response. Try another model.'); console.log('Full response:', result); return; }
 
         let html = toHtmlIfNeeded(raw);
-        // Apply post-processing in a specific order
+        // Apply post-processing in order
         html = injectSheetLink(html, sheetUrl);
         html = ensureCTA(html);
         html = ensureGlossary(html);
         html = applyStrategistName(html, strategistName);
-        // Prepend the salutation at the very end to ensure it's always first
+        // Prepend salutation at the very end
         html = buildSalutation(firmName, contactName) + html;
         
         emailOutput.innerHTML = html;
