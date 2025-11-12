@@ -60,7 +60,7 @@
 
           <div class="md:col-span-2">
             <label for="strategistName" class="block text-sm font-medium text-gray-700 mb-1">Strategist’s Name</label>
-            <input type="text" id="strategistName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Alex Johnson">
+            <input type="text" id="strategistName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., Alex Johnson (saved in browser)">
           </div>
           
           <div class="md:col-span-2">
@@ -108,15 +108,10 @@
       <div>
         <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Step 3: Client’s Google Sheets Insight Contacts</h2>
         <div class="mb-3">
-          <label for="contactsUrl" class="block text-sm font-medium text-gray-700 mb-1">Google Sheets URL (published CSV or export link) — optional</label>
-          <div class="flex gap-2">
-            <input type="url" id="contactsUrl" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Paste the Google Sheets link here">
-            <button id="loadSheetBtn" class="shrink-0 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Load from URL</button>
-          </div>
-          <p class="text-xs text-gray-500 mt-1">Tip: Best reliability is “Publish to the web” → Link → select the tab → CSV, then paste that link.</p>
-          <p id="sheetStatus" class="text-xs mt-1"></p>
+          <label for="contactsUrl" class="block text-sm font-medium text-gray-700 mb-1">Google Sheets URL (optional)</label>
+          <input type="url" id="contactsUrl" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Paste share link to add it to the email">
         </div>
-        <p class="text-sm text-gray-500 -mt-1 mb-2">Or paste the full contents of the client’s Insight Contacts Google Sheet below (plain text is fine). This powers “Executive Summary: Contact Metrics.” The raw sheet is not pasted into the email.</p>
+        <p class="text-sm text-gray-500 -mt-1 mb-2">Paste the full contents of the client’s Insight Contacts Google Sheet below. This powers the “Executive Summary: Contact Metrics.”</p>
         <textarea id="contactsPaste" rows="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition font-mono text-sm" placeholder="Paste the entire sheet (Ctrl/Cmd+V)."></textarea>
       </div>
 
@@ -176,8 +171,6 @@
     const imagePreview = document.getElementById('image-preview');
 
     const contactsUrlInput = document.getElementById('contactsUrl');
-    const loadSheetBtn = document.getElementById('loadSheetBtn');
-    const sheetStatus = document.getElementById('sheetStatus');
     const contactsPaste = document.getElementById('contactsPaste');
 
     const generateBtn = document.getElementById('generateBtn');
@@ -196,16 +189,21 @@
     let imageBase64 = null;
     let imageMime = null;
 
+    // Persist API key and Strategist Name
     window.addEventListener('load', () => {
       const savedApiKey = localStorage.getItem('ppcGeneratorApiKey');
       if (savedApiKey) { apiKeyInput.value = savedApiKey; loadModels(); }
+      
+      const savedStrategistName = localStorage.getItem('ppcGeneratorStrategistName');
+      if (savedStrategistName) { strategistNameInput.value = savedStrategistName; }
     });
     apiKeyInput.addEventListener('input', () => localStorage.setItem('ppcGeneratorApiKey', apiKeyInput.value));
+    strategistNameInput.addEventListener('input', () => localStorage.setItem('ppcGeneratorStrategistName', strategistNameInput.value));
 
     function showError(m){ errorText.textContent = m; errorMessage.classList.remove('hidden'); }
     function hideError(){ errorMessage.classList.add('hidden'); }
     function setLoading(b){ generateBtn.disabled=b; buttonText.classList.toggle('hidden', b); loadingSpinner.classList.toggle('hidden', !b); }
-
+    
     function toCsvExportUrl(url) {
       try {
         const u = new URL(url.trim());
@@ -219,25 +217,10 @@
         return url;
       } catch { return url; }
     }
-
-    async function loadContactsFromUrl() {
-      const rawUrl = contactsUrlInput.value.trim();
-      sheetStatus.textContent = '';
-      if (!rawUrl) { sheetStatus.textContent = 'Please paste a Google Sheets URL.'; sheetStatus.className = 'text-xs text-red-600 mt-1'; return; }
-      const csvUrl = toCsvExportUrl(rawUrl);
-      sheetStatus.textContent = 'Loading...'; sheetStatus.className = 'text-xs text-gray-600 mt-1';
-      try {
-        const res = await fetch(csvUrl);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const text = await res.text();
-        if (!text.trim()) throw new Error('Empty response');
-        contactsPaste.value = text;
-        sheetStatus.textContent = 'Loaded contacts from Google Sheets URL.'; sheetStatus.className = 'text-xs text-green-700 mt-1';
-      } catch (e) {
-        sheetStatus.textContent = 'Failed to load. Publish the sheet to the web (CSV) or ensure it is publicly accessible.'; sheetStatus.className = 'text-xs text-red-600 mt-1';
-      }
-    }
-    loadSheetBtn.addEventListener('click', loadContactsFromUrl);
+    
+    // NOTE: Simplified this step based on user feedback. The button and status text were removed.
+    // The URL field is now only for linking in the email.
+    // async function loadContactsFromUrl() ...
 
     function handleFile(file){
       if (!file || !file.type.startsWith('image/')) { showError('Please upload a valid image file (PNG/JPG).'); return; }
@@ -321,7 +304,6 @@
       return psIdx !== -1 ? (html.slice(0, psIdx) + canonical + '\n' + html.slice(psIdx)) : (canonical + '\n' + html);
     }
 
-    // THE ROBUST SALUTATION FUNCTION
     function buildSalutation(firmName, contactName) {
       const target = (contactName || `${firmName} team` || 'Client').trim();
       return `<p>Dear ${escapeHtml(target)},</p>\n`;
@@ -382,7 +364,6 @@
       const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const dateRange = `${formattedStart} through ${formattedEnd}`;
 
-      // UPDATED PROMPT: The app handles the salutation now, so it's removed from the AI's instructions.
       const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client. Use plain, outcome-focused language.
 
 Inputs:
@@ -442,12 +423,10 @@ Please generate the email body content as HTML only. Do not include the "Dear...
         if (!raw) { showError('The model returned an empty response. Try another model.'); console.log('Full response:', result); return; }
 
         let html = toHtmlIfNeeded(raw);
-        // Apply post-processing in order
         html = injectSheetLink(html, sheetUrl);
         html = ensureCTA(html);
         html = ensureGlossary(html);
         html = applyStrategistName(html, strategistName);
-        // Prepend salutation at the very end
         html = buildSalutation(firmName, contactName) + html;
         
         emailOutput.innerHTML = html;
