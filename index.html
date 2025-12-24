@@ -204,24 +204,9 @@
     function hideError(){ errorMessage.classList.add('hidden'); }
     function setLoading(b){ generateBtn.disabled=b; buttonText.classList.toggle('hidden', b); loadingSpinner.classList.toggle('hidden', !b); }
     
-    function toCsvExportUrl(url) {
-      try {
-        const u = new URL(url.trim());
-        if (u.hostname.includes('docs.google.com') && u.pathname.includes('/spreadsheets/')) {
-          if (u.searchParams.get('output') === 'csv' || u.pathname.includes('/pub')) return url;
-          const idMatch = u.pathname.match(/\/spreadsheets\/d\/([^/]+)/);
-          const id = idMatch ? idMatch[1] : '';
-          const gid = u.searchParams.get('gid') || '0';
-          if (id) return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
-        }
-        return url;
-      } catch { return url; }
-    }
-    
     // NOTE: Simplified this step based on user feedback. The button and status text were removed.
-    // The URL field is now only for linking in the email.
-    // async function loadContactsFromUrl() ...
-
+    // The URL field is now only for linking in the email. No load logic here.
+    
     function handleFile(file){
       if (!file || !file.type.startsWith('image/')) { showError('Please upload a valid image file (PNG/JPG).'); return; }
       hideError();
@@ -272,12 +257,14 @@
       return glossIdx !== -1 ? html.slice(0, glossIdx) + ctaHtml + '\n' + html.slice(glossIdx) : (html + '\n' + ctaHtml);
     }
 
+    // THE CORRECTED GLOSSARY
     const glossaryHtml = `
 <hr>
 <p><strong>Glossary of Terms</strong></p>
 <ul>
   <li><strong>CPC</strong> — Cost Per Click: the average amount paid for each click.</li>
-  <li><strong>CPL</strong> — Cost Per Lead: cost divided by the number of leads</li>
+  <li><strong>CPL</strong> — Cost Per Lead: cost divided by the number of leads.</li>
+  <li><strong>CPA</strong> — Cost Per Conversion: cost divided by the number of conversions (in this report, often used interchangeably with CPL).</li>
   <li><strong>CTR</strong> — Click-Through Rate: clicks ÷ impressions, shown as a percentage.</li>
   <li><strong>Impr</strong> — Impressions: how many times the ads were shown.</li>
   <li><strong>Conv</strong> — Conversions: the actions we track as goals (here: calls and emails).</li>
@@ -364,6 +351,7 @@
       const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const dateRange = `${formattedStart} through ${formattedEnd}`;
 
+      // UPDATED PROMPT: includes correct glossary list.
       const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client. Use plain, outcome-focused language.
 
 Inputs:
@@ -387,7 +375,16 @@ Required structure:
 - Do not include a "Strategic Next Steps" section.
 - Closing: Please let me know if you have any questions. If you would like to discuss this report, please schedule a call at your convenience.
 - Signature: Best regards, + [Your Name]
-- Footer: <p><strong>Glossary of Terms</strong></p> with the exact list.
+- Footer: <p><strong>Glossary of Terms</strong></p> with the following list exactly:
+  <ul>
+    <li><strong>CPC</strong> — Cost Per Click: the average amount paid for each click.</li>
+    <li><strong>CPL</strong> — Cost Per Lead: cost divided by the number of leads.</li>
+    <li><strong>CPA</strong> — Cost Per Conversion: cost divided by the number of conversions (in this report, often used interchangeably with CPL).</li>
+    <li><strong>CTR</strong> — Click-Through Rate: clicks ÷ impressions, shown as a percentage.</li>
+    <li><strong>Impr</strong> — Impressions: how many times the ads were shown.</li>
+    <li><strong>Conv</strong> — Conversions: the actions we track as goals (here: calls and emails).</li>
+    <li><strong>Conv Rate</strong> — Conversion Rate: conversions ÷ clicks, shown as a percentage.</li>
+  </ul>
 
 Tone:
 - Confident, professional, client-focused.
