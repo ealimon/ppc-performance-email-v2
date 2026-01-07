@@ -347,7 +347,7 @@
       const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const dateRange = `${formattedStart} through ${formattedEnd}`;
 
-      // UPDATED PROMPT: New structure with Executive Summary and corrected closing position.
+      // UPDATED PROMPT: Repurposed Executive Summary and specified platform metrics.
       const systemPrompt = `You are an expert digital marketing strategist for law firms. Produce a professional, client-facing email for the law firm client. Use plain, outcome-focused language.
 
 Inputs:
@@ -361,13 +361,12 @@ Output (very important):
 - DO NOT write the "Dear..." salutation. The application will add it. Start directly with the opening sentence.
 - Use <p> and <strong> for text; <ul><li> for lists.
 - Do not include <html>, <body>, or <head> tags.
-- Use the full phrase "Cost per conversion" instead of the acronym "CPA".
 
 Required structure:
-- Opening: Start with the exact sentence "This report summarizes the performance of your search engine marketing campaigns for the period of ${formattedStart} through ${formattedEnd}."
+- Opening: Start with "This report summarizes the performance of your search engine marketing campaigns for the period of ${formattedStart} through ${formattedEnd}."
 - <p><strong>Executive Summary</strong></p>: A concise <ul> showing the COMBINED TOTALS for all campaigns visible on the screenshot. Must include: Total Spend, Total Clicks, Total Conversions, overall blended Cost per conversion, overall CPC, and overall Conversion Rate.
-- <p><strong>Performance Summary</strong></p>: A breakdown by platform (e.g., LSA, Google Ads, Microsoft Ads) if visible on the screenshot, each with its own <ul> of key metrics.
-- <p><strong>Insightful Analysis</strong></p> (1-3 paragraphs for the client, including legal industry benchmarks for context).
+- <p><strong>Performance Summary</strong></p>: A breakdown by platform (e.g., LSA, Google Ads, Microsoft Ads) if visible on the screenshot. For each platform, create a sub-section with its own <ul> including these key metrics: Spend, Clicks, Conversions, CPC, Cost per conversion, and Conversion Rate.
+- <p><strong>Insightful Analysis</strong></p> (1-3 paragraphs for the client).
 - Closing: Please let me know if you have any questions or if you would like to set up a call to go over performance.
 - Signature: Best Regards, + [Your Name]
 - Footer: <p><strong>Glossary of Terms</strong></p> with the exact list.
