@@ -258,11 +258,10 @@
       return html;
     }
 
-    // THE ensureCTA FUNCTION WAS MISSING. IT IS NOW RESTORED.
-    const ctaHtml = `<p>If you would like to discuss this report, please schedule a call at your convenience.</p>`;
+    const ctaHtml = `<p>Please let me know if you have any questions or if you would like to set up a call to go over performance.</p>`;
     function ensureCTA(html){
       const lc=html.toLowerCase();
-      if (lc.includes('schedule a call')) return html;
+      if (lc.includes('please let me know if you have any questions')) return html;
       const glossIdx = lc.indexOf('<p><strong>glossary of terms');
       return glossIdx !== -1 ? html.slice(0, glossIdx) + ctaHtml + '\n' + html.slice(glossIdx) : (html + '\n' + ctaHtml);
     }
@@ -368,14 +367,14 @@
       const formattedEnd = new Date(endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric', timeZone:'UTC'});
       const dateRange = `${formattedStart} through ${formattedEnd}`;
 
-      // UPDATED PROMPT: Re-added STRATEGIST NOTES part.
+      // UPDATED PROMPT: Re-added STRATEGIST NOTES part and specified Impressions metric.
       const systemPrompt = `You are an expert digital marketing strategist for law firms. You will produce two distinct parts: a professional, client-facing email, and a separate, internal-only notes section for the strategist.
 
 PART 1: CLIENT-FACING EMAIL
 Write an email for the law firm client using plain, outcome-focused language.
 - Inputs:
   1) SHAPE performance dashboard screenshot (image).
-  2) Pasted "Insight Contacts" text (for context only, do not summarize separately).
+  2) Pasted "Insight Contacts" text (for context only, do not summarize).
   3) A Google Sheets URL (the app will handle linking).
   4) A strategist name (replace [Your Name]).
 - Output:
@@ -383,17 +382,16 @@ Write an email for the law firm client using plain, outcome-focused language.
   - DO NOT write the "Dear..." salutation. The application will add it.
 - Required Structure:
   - Opening: Start with "This report summarizes the performance of your search engine marketing campaigns for the period of ${formattedStart} through ${formattedEnd}."
-  - <p><strong>Executive Summary</strong></p>: A concise <ul> showing the COMBINED TOTALS for all campaigns visible on the screenshot. Must include: Total Spend, Total Clicks, Total Conversions, overall blended Cost per conversion, overall CPC, and overall Conversion Rate.
-  - <p><strong>Performance Summary</strong></p>: A breakdown by platform (e.g., LSA, Google Ads, Microsoft Ads) if visible on the screenshot, each with its own <ul> including key metrics: Spend, Clicks, Conversions, CPC, Cost per conversion, and Conversion Rate.
-  - <p><strong>Insightful Analysis</strong></p> (1-3 paragraphs for the client).
-  - Closing: Please let me know if you have any questions or if you would like to set up a call to go over performance.
-  - Signature: Best Regards, + [Your Name]
+  - <p><strong>Executive Summary</strong></p>: A concise <ul> showing the COMBINED TOTALS for all campaigns on the screenshot. Must include: Total Spend, Total Impressions, Total Clicks, Total Conversions, overall blended Cost per conversion, overall CPC, and overall Conversion Rate.
+  - <p><strong>Performance Summary</strong></p>: A breakdown by platform (e.g., LSA, Google Ads, Microsoft Ads). For each platform, create a sub-section with its own <ul> including: Spend, Impressions, Clicks, Conversions, CPC, Cost per conversion, and Conversion Rate.
+  - <p><strong>Insightful Analysis</strong></p> (1-3 client-facing paragraphs).
+  - Closing & Signature: "Please let me know if you have any questions or if you would like to set up a call to go over performance. Best Regards, [Your Name]"
   - Footer: <p><strong>Glossary of Terms</strong></p> with the exact list.
 - Tone: Confident, professional, client-focused. Do not invent data.
 
 ---
 PART 2: STRATEGIST NOTES
-After the client email, add a separator "--- STRATEGIST NOTES ---" and then write a separate section with tactical, internal-only recommendations for the PPC strategist. These notes should be in ALL CAPS. Base them on all provided data. Examples: HIGH MISSED CALL RATE ON LSA CAMPAIGN, SUGGESTS REVIEWING INTAKE HOURS. | CONSIDER PAUSING KEYWORD 'X' DUE TO HIGH COST AND ZERO CONVERSIONS.`;
+After the client email, add a separator "--- STRATEGIST NOTES ---" and then write a separate section with tactical, internal-only recommendations for the PPC strategist. These notes should be in ALL CAPS. Base them on all provided data. Examples: HIGH MISSED CALL RATE, SUGGESTS REVIEWING INTAKE HOURS. | CONSIDER PAUSING KEYWORD 'X' DUE TO HIGH COST.`;
 
       const userQuery =
 `Law Firm Name: ${firmName}
@@ -435,7 +433,6 @@ Please generate the email body content as HTML only, followed by the strategist 
 
         emailHtml = toHtmlIfNeeded(emailHtml);
         emailHtml = injectSheetLink(emailHtml, sheetUrl);
-        emailHtml = ensureCTA(emailHtml);
         emailHtml = ensureGlossary(emailHtml);
         emailHtml = applyStrategistName(emailHtml, strategistName);
         emailHtml = buildSalutation(firmName, contactName) + emailHtml;
