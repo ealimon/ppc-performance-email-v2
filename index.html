@@ -258,6 +258,15 @@
       return html;
     }
 
+    // THE ensureCTA FUNCTION WAS MISSING. IT IS NOW RESTORED.
+    const ctaHtml = `<p>If you would like to discuss this report, please schedule a call at your convenience.</p>`;
+    function ensureCTA(html){
+      const lc=html.toLowerCase();
+      if (lc.includes('schedule a call')) return html;
+      const glossIdx = lc.indexOf('<p><strong>glossary of terms');
+      return glossIdx !== -1 ? html.slice(0, glossIdx) + ctaHtml + '\n' + html.slice(glossIdx) : (html + '\n' + ctaHtml);
+    }
+
     const glossaryHtml = `
 <hr>
 <p><strong>Glossary of Terms</strong></p>
@@ -376,7 +385,7 @@ Write an email for the law firm client using plain, outcome-focused language.
   - Opening: Start with "This report summarizes the performance of your search engine marketing campaigns for the period of ${formattedStart} through ${formattedEnd}."
   - <p><strong>Executive Summary</strong></p>: A concise <ul> showing the COMBINED TOTALS for all campaigns visible on the screenshot. Must include: Total Spend, Total Clicks, Total Conversions, overall blended Cost per conversion, overall CPC, and overall Conversion Rate.
   - <p><strong>Performance Summary</strong></p>: A breakdown by platform (e.g., LSA, Google Ads, Microsoft Ads) if visible on the screenshot, each with its own <ul> including key metrics: Spend, Clicks, Conversions, CPC, Cost per conversion, and Conversion Rate.
-  - <p><strong>Insightful Analysis</strong></p> (1-3 paragraphs for the client, including legal industry benchmarks for context).
+  - <p><strong>Insightful Analysis</strong></p> (1-3 paragraphs for the client).
   - Closing: Please let me know if you have any questions or if you would like to set up a call to go over performance.
   - Signature: Best Regards, + [Your Name]
   - Footer: <p><strong>Glossary of Terms</strong></p> with the exact list.
